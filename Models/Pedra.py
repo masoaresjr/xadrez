@@ -7,8 +7,8 @@ class Pedra:
     def __init__(self):
 
         self.Cor = None
-        self.posicao_x = None
-        self.posicao_y = None
+        self.coordenada_x = None
+        self.coordenada_y = None
         self.name = None
 
     @abstractmethod
@@ -22,20 +22,20 @@ class Pedra:
 
 class Peao(Pedra):
 
-    def __init__(self, cor, posicao_x):
+    def __init__(self, cor, coordenada_x):
 
         super().__init__()
         self.primeiro_movimento = True
         self.name = 'Peao'
         self.Cor = cor
-        self.posicao_x = posicao_x
+        self.coordenada_x = coordenada_x
 
         if cor == Cor.Branca:
-            self.posicao_y = 1
+            self.coordenada_y = 1
         elif cor == Cor.Preta:
-            self.posicao_y = 6
+            self.coordenada_y = 6
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def todos_movimentos(self):
         casas_possiveis = []
@@ -50,7 +50,7 @@ class Peao(Pedra):
                 movimento_y.append(-2)
 
         for casa in movimento_y:
-            movimento_possivel = [self.posicao_x, self.posicao_y + casa]
+            movimento_possivel = [self.coordenada_x, self.coordenada_y + casa]
             casas_possiveis.append(movimento_possivel)
 
         return casas_possiveis
@@ -69,16 +69,16 @@ class Torre(Pedra):
         self.Lado = lado
 
         if cor == Cor.Branca:
-            self.posicao_y = 0
+            self.coordenada_y = 0
         elif cor == Cor.Preta:
-            self.posicao_y = 7
+            self.coordenada_y = 7
 
         if lado == Lado.Rei:
-            self.posicao_x = 7
+            self.coordenada_x = 7
         elif lado == Lado.Rainha:
-            self.posicao_x = 0
+            self.coordenada_x = 0
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def todos_movimentos(self):
         casas_posiveis = []
@@ -86,16 +86,16 @@ class Torre(Pedra):
         contador_x = 0
 
         while contador_x <= 7:
-            if contador_x != self.posicao_x:
-                movimento_possivel = [contador_x, self.posicao_x]
+            if contador_x != self.coordenada_x:
+                movimento_possivel = [contador_x, self.coordenada_x]
                 casas_posiveis.append(movimento_possivel)
             contador_x += 1
 
         contador_y = 0
 
         while contador_y <= 7:
-            if contador_y != self.posicao_y:
-                movimento_possivel = [self.posicao_y, contador_y]
+            if contador_y != self.coordenada_y:
+                movimento_possivel = [self.coordenada_y, contador_y]
                 casas_posiveis.append(movimento_possivel)
             contador_y += 1
 
@@ -118,16 +118,16 @@ class Cavalo(Pedra):
         self.Lado = lado
 
         if cor == Cor.Branca:
-            self.posicao_y = 0
+            self.coordenada_y = 0
         elif cor == Cor.Preta:
-            self.posicao_y = 7
+            self.coordenada_y = 7
 
         if lado == Lado.Rei:
-            self.posicao_x = 6
+            self.coordenada_x = 6
         elif lado == Lado.Rainha:
-            self.posicao_x = 1
+            self.coordenada_x = 1
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def todos_movimentos(self):
         casas_possiveis = []
@@ -137,8 +137,8 @@ class Cavalo(Pedra):
 
         for x in movimentos_x:
             for y in movimentos_y:
-                if 0 <= y + self.posicao_y <= 7 and 0 <= x + self.posicao_x <= 7:
-                    movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
+                if 0 <= y + self.coordenada_y <= 7 and 0 <= x + self.coordenada_x <= 7:
+                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
                     casas_possiveis.append(movimento_possivel)
 
         movimentos_x = [-2, 2]
@@ -146,8 +146,8 @@ class Cavalo(Pedra):
 
         for x in movimentos_x:
             for y in movimentos_y:
-                if 0 <= x + self.posicao_x <= 7 and 0 <= y + self.posicao_y <= 7:
-                    movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
+                if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7:
+                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
                     casas_possiveis.append(movimento_possivel)
 
         return casas_possiveis
@@ -166,22 +166,22 @@ class Bispo(Pedra):
         self.Lado = lado
 
         if cor == Cor.Branca:
-            self.posicao_y = 0
+            self.coordenada_y = 0
         elif cor == Cor.Preta:
-            self.posicao_y = 7
+            self.coordenada_y = 7
 
         if lado == Lado.Rei:
-            self.posicao_x = 5
+            self.coordenada_x = 5
         elif lado == Lado.Rainha:
-            self.posicao_x = 2
+            self.coordenada_x = 2
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def movimentos_direcao_unica(self, contador_x, contador_y):
         todos_movimentos = []
 
-        while 0 <= contador_x + self.posicao_x <= 7 and 0 <= contador_y + self.posicao_y <= 7:
-            movimento_possivel = [contador_x + self.posicao_x, contador_y + self.posicao_y]
+        while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
+            movimento_possivel = [contador_x + self.coordenada_x, contador_y + self.coordenada_y]
             todos_movimentos.append(movimento_possivel)
 
             if contador_x > 0:
@@ -224,14 +224,14 @@ class Rei(Pedra):
         super().__init__()
         self.name = 'Rei'
         self.Cor = cor
-        self.posicao_x = 4
+        self.coordenada_x = 4
 
         if cor == Cor.Branca:
-            self.posicao_y = 0
+            self.coordenada_y = 0
         elif cor == Cor.Preta:
-            self.posicao_y = 7
+            self.coordenada_y = 7
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def todos_movimentos(self):
         casas_possiveis = []
@@ -241,8 +241,8 @@ class Rei(Pedra):
 
         for x in movimentos_x:
             for y in movimentos_y:
-                if 0 <= x + self.posicao_x <= 7 and 0 <= y + self.posicao_y <= 7 and (x != 0 or y != 0):
-                    movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
+                if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7 and (x != 0 or y != 0):
+                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
                     casas_possiveis.append(movimento_possivel)
 
         return casas_possiveis
@@ -258,20 +258,20 @@ class Rainha(Pedra):
         super().__init__()
         self.name = 'Rainha'
         self.Cor = cor
-        self.posicao_x = 3
+        self.coordenada_x = 3
 
         if cor == Cor.Branca:
-            self.posicao_y = 0
+            self.coordenada_y = 0
         elif cor == Cor.Preta:
-            self.posicao_y = 7
+            self.coordenada_y = 7
 
-        self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
+        self.posicao_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
     def movimentos_direcao_unica(self, contador_x, contador_y):
         todos_movimentos = []
 
-        while 0 <= contador_x + self.posicao_x <= 7 and 0 <= contador_y + self.posicao_y <= 7:
-            movimento_possivel = [contador_x + self.posicao_x, contador_y + self.posicao_y]
+        while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
+            movimento_possivel = [contador_x + self.coordenada_x, contador_y + self.coordenada_y]
             todos_movimentos.append(movimento_possivel)
 
             if contador_x > 0:
@@ -304,16 +304,16 @@ class Rainha(Pedra):
         contador_x = 0
 
         while contador_x <= 7:
-            if contador_x != self.posicao_x:
-                movimento_possivel = [contador_x, self.posicao_y]
+            if contador_x != self.coordenada_x:
+                movimento_possivel = [contador_x, self.coordenada_y]
                 casas_possiveis.append(movimento_possivel)
             contador_x += 1
 
         contador_y = 0
 
         while contador_y <= 7:
-            if contador_y != self.posicao_y:
-                movimento_possivel = [self.posicao_x, contador_y]
+            if contador_y != self.coordenada_y:
+                movimento_possivel = [self.coordenada_x, contador_y]
                 casas_possiveis.append(movimento_possivel)
             contador_y += 1
 

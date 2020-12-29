@@ -23,8 +23,8 @@ def montar_tabuleiro():
     print(casas[0][0].pedra.name)
     print(casas[0][0].pedra.todos_movimentos())
     casas[3][3].pedra = casas[0][0].pedra
-    casas[3][3].pedra.posicao_x = 3
-    casas[3][3].pedra.posicao_y = 3
+    casas[3][3].pedra.coordenada_x = 3
+    casas[3][3].pedra.coordenada_y = 3
     casas[3][3].pedra.primeiro_movimento = False
     print(casas[3][3].pedra.todos_movimentos())
 
@@ -44,9 +44,9 @@ def criar_pedras():
 def criar_peoes():
     peoes = []
 
-    for posicao_x in range(8):
-        peao_branco = Peao(Cor.Branca, posicao_x)
-        peao_preto = Peao(Cor.Preta, posicao_x)
+    for coordenada_x in range(8):
+        peao_branco = Peao(Cor.Branca, coordenada_x)
+        peao_preto = Peao(Cor.Preta, coordenada_x)
         peoes.extend([peao_branco, peao_preto])
 
     return peoes
@@ -123,8 +123,8 @@ def criar_casas():
 
 def posicionar_pedras(pedras, casas):
     for pedra in pedras:
-        posicao_a_usar = (casas[pedra.posicao_x])[pedra.posicao_y]
-        posicao_a_usar.pedra = pedra
+        casa = (casas[pedra.coordenada_x])[pedra.coordenada_y]
+        casa.pedra = pedra
 
     return casas
 
