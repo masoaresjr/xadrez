@@ -1,44 +1,44 @@
-from Models.Peça import *
-from Models.Casa import Posição
+from Models.Pedra import *
+from Models.Casa import Casa
 from itertools import chain
 
 
 def montar_tabuleiro():
-    peças = criar_peças()
+    pedras = criar_pedras()
 
-    casas = posicionar_peças(peças, criar_posicoes())
+    casas = posicionar_pedras(pedras, criar_casas())
 
     for index in range(8):
         linha = ""
         for i in casas:
             coluna = " | "
-            peça = i[index].peça
-            if peça is not None:
-                coluna += peça.name
+            pedra = i[index].pedra
+            if pedra is not None:
+                coluna += pedra.name
             else:
                 coluna += "   "
             linha += coluna
         print(linha)
 
-    print(casas[0][0].peça.name)
-    print(casas[0][0].peça.todos_movimentos())
-    casas[3][3].peça = casas[0][0].peça
-    casas[3][3].peça.posicao_x = 3
-    casas[3][3].peça.posicao_y = 3
-    casas[3][3].peça.primeiro_movimento = False
-    print(casas[3][3].peça.todos_movimentos())
+    print(casas[0][0].pedra.name)
+    print(casas[0][0].pedra.todos_movimentos())
+    casas[3][3].pedra = casas[0][0].pedra
+    casas[3][3].pedra.posicao_x = 3
+    casas[3][3].pedra.posicao_y = 3
+    casas[3][3].pedra.primeiro_movimento = False
+    print(casas[3][3].pedra.todos_movimentos())
 
 
-def criar_peças():
+def criar_pedras():
     peoes = criar_peoes()
     torres = criar_torres()
     cavalos = criar_cavalos()
     bispos = criar_bispos()
     reis_e_rainhas = criar_realeza()
 
-    peças = list(chain(peoes, torres, cavalos, bispos, reis_e_rainhas))
+    pedra = list(chain(peoes, torres, cavalos, bispos, reis_e_rainhas))
 
-    return peças
+    return pedra
 
 
 def criar_peoes():
@@ -109,24 +109,24 @@ def criar_realeza():
     return realeza
 
 
-def criar_posicoes():
-    posicoes = []
+def criar_casas():
+    casas = []
 
     for coordenada_x in range(8):
         nova_linha = []
         for coordenada_y in range(8):
-            nova_linha.append(Posição(coordenada_x, coordenada_y))
-        posicoes.append(nova_linha)
+            nova_linha.append(Casa(coordenada_x, coordenada_y))
+        casas.append(nova_linha)
 
-    return posicoes
+    return casas
 
 
-def posicionar_peças(peças, posicoes):
-    for peça in peças:
-        posicao_a_usar = (posicoes[peça.posicao_x])[peça.posicao_y]
-        posicao_a_usar.peça = peça
+def posicionar_pedras(pedras, casas):
+    for pedra in pedras:
+        posicao_a_usar = (casas[pedra.posicao_x])[pedra.posicao_y]
+        posicao_a_usar.pedra = pedra
 
-    return posicoes
+    return casas
 
 
 montar_tabuleiro()

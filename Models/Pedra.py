@@ -2,7 +2,7 @@ from abc import abstractmethod
 import enum
 
 
-class Peça:
+class Pedra:
 
     def __init__(self):
 
@@ -20,7 +20,7 @@ class Peça:
         pass
 
 
-class Peao(Peça):
+class Peao(Pedra):
 
     def __init__(self, cor, posicao_x):
 
@@ -38,7 +38,7 @@ class Peao(Peça):
         self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_possiveis = []
 
         if self.Cor == Cor.Branca:
             movimento_y = [1]
@@ -51,15 +51,15 @@ class Peao(Peça):
 
         for casa in movimento_y:
             movimento_possivel = [self.posicao_x, self.posicao_y + casa]
-            posicoes_possiveis.append(movimento_possivel)
+            casas_possiveis.append(movimento_possivel)
 
-        return posicoes_possiveis
+        return casas_possiveis
 
     def mover(self, casa_origem, casa_destino):
         print("movido")
 
 
-class Torre(Peça):
+class Torre(Pedra):
 
     def __init__(self, cor, lado):
 
@@ -81,14 +81,14 @@ class Torre(Peça):
         self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_posiveis = []
 
         contador_x = 0
 
         while contador_x <= 7:
             if contador_x != self.posicao_x:
                 movimento_possivel = [contador_x, self.posicao_x]
-                posicoes_possiveis.append(movimento_possivel)
+                casas_posiveis.append(movimento_possivel)
             contador_x += 1
 
         contador_y = 0
@@ -96,16 +96,16 @@ class Torre(Peça):
         while contador_y <= 7:
             if contador_y != self.posicao_y:
                 movimento_possivel = [self.posicao_y, contador_y]
-                posicoes_possiveis.append(movimento_possivel)
+                casas_posiveis.append(movimento_possivel)
             contador_y += 1
 
-        return posicoes_possiveis
+        return casas_posiveis
 
     def mover(self, casa_origem, casa_destino):
         print("movido")
 
 
-class Cavalo(Peça):
+class Cavalo(Pedra):
 
     def test(self):
         print("Cavalo")
@@ -130,7 +130,7 @@ class Cavalo(Peça):
         self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_possiveis = []
 
         movimentos_x = [-1, 1]
         movimentos_y = [2, -2]
@@ -139,7 +139,7 @@ class Cavalo(Peça):
             for y in movimentos_y:
                 if 0 <= y + self.posicao_y <= 7 and 0 <= x + self.posicao_x <= 7:
                     movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
-                    posicoes_possiveis.append(movimento_possivel)
+                    casas_possiveis.append(movimento_possivel)
 
         movimentos_x = [-2, 2]
         movimentos_y = [1, -1]
@@ -148,15 +148,15 @@ class Cavalo(Peça):
             for y in movimentos_y:
                 if 0 <= x + self.posicao_x <= 7 and 0 <= y + self.posicao_y <= 7:
                     movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
-                    posicoes_possiveis.append(movimento_possivel)
+                    casas_possiveis.append(movimento_possivel)
 
-        return posicoes_possiveis
+        return casas_possiveis
 
     def mover(self, casa_origem, casa_destino):
         print("movido")
 
 
-class Bispo(Peça):
+class Bispo(Pedra):
 
     def __init__(self, cor, lado):
 
@@ -197,7 +197,7 @@ class Bispo(Peça):
         return todos_movimentos
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_possiveis = []
 
         contador_x = [1, -1]
         contador_y = [1, -1]
@@ -209,15 +209,15 @@ class Bispo(Peça):
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
-                posicoes_possiveis.append(movimento)
+                casas_possiveis.append(movimento)
 
-        return posicoes_possiveis
+        return casas_possiveis
 
     def mover(self, casa_origem, casa_destino):
         print("movido")
 
 
-class Rei(Peça):
+class Rei(Pedra):
 
     def __init__(self, cor):
 
@@ -234,7 +234,7 @@ class Rei(Peça):
         self.posicao_inicial_tabuleiro = [self.posicao_x, self.posicao_y]
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]
         movimentos_y = [-1, 0, 1]
@@ -243,15 +243,15 @@ class Rei(Peça):
             for y in movimentos_y:
                 if 0 <= x + self.posicao_x <= 7 and 0 <= y + self.posicao_y <= 7 and (x != 0 or y != 0):
                     movimento_possivel = [x + self.posicao_x, y + self.posicao_y]
-                    posicoes_possiveis.append(movimento_possivel)
+                    casas_possiveis.append(movimento_possivel)
 
-        return posicoes_possiveis
+        return casas_possiveis
 
     def mover(self, casa_origem, casa_destino):
         print("movido")
 
 
-class Rainha(Peça):
+class Rainha(Pedra):
 
     def __init__(self, cor):
 
@@ -287,7 +287,7 @@ class Rainha(Peça):
         return todos_movimentos
 
     def todos_movimentos(self):
-        posicoes_possiveis = []
+        casas_possiveis = []
 
         contador_x = [1, -1]
         contador_y = [1, -1]
@@ -299,14 +299,14 @@ class Rainha(Peça):
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
-                posicoes_possiveis.append(movimento)
+                casas_possiveis.append(movimento)
 
         contador_x = 0
 
         while contador_x <= 7:
             if contador_x != self.posicao_x:
                 movimento_possivel = [contador_x, self.posicao_y]
-                posicoes_possiveis.append(movimento_possivel)
+                casas_possiveis.append(movimento_possivel)
             contador_x += 1
 
         contador_y = 0
@@ -314,10 +314,10 @@ class Rainha(Peça):
         while contador_y <= 7:
             if contador_y != self.posicao_y:
                 movimento_possivel = [self.posicao_x, contador_y]
-                posicoes_possiveis.append(movimento_possivel)
+                casas_possiveis.append(movimento_possivel)
             contador_y += 1
 
-        return posicoes_possiveis
+        return casas_possiveis
 
     def mover(self, casa_origem , casa_destino):
         print("movido")
