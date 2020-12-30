@@ -5,6 +5,7 @@ from Models.Pedras.Cavalo import Cavalo
 from Models.Pedras.Bispo import Bispo
 from Models.Pedras.Rei import Rei
 from Models.Pedras.Rainha import Rainha
+import Models.Lixeira
 import Models.Propriedades
 from itertools import chain
 
@@ -12,6 +13,7 @@ from itertools import chain
 def montar_tabuleiro():
     pedras = criar_pedras()
     casas = posicionar_pedras(pedras, criar_casas())
+    lixeiras = [Models.Lixeira.Lixeira(Models.Propriedades.Cor.Branca), Models.Lixeira.Lixeira(Models.Propriedades.Cor.Preta)]
 
     for index in range(8):
         linha = ""
@@ -24,14 +26,6 @@ def montar_tabuleiro():
                 coluna += "   "
             linha += coluna
         print(linha)
-
-    print(casas[0][0].pedra.name)
-    print(casas[0][0].pedra.todos_movimentos())
-    casas[3][3].pedra = casas[0][0].pedra
-    casas[3][3].pedra.coordenada_x = 3
-    casas[3][3].pedra.coordenada_y = 3
-    casas[3][3].pedra.primeiro_movimento = False
-    print(casas[3][3].pedra.todos_movimentos())
 
 
 def criar_pedras():

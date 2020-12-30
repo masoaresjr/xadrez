@@ -8,7 +8,7 @@ class Rainha(Pedra):
 
         super().__init__()
         self.name = 'Rainha'
-        self.Cor = cor
+        self.cor = cor
         self.coordenada_x = 3
 
         if cor == Models.Propriedades.Cor.Branca:
@@ -37,7 +37,7 @@ class Rainha(Pedra):
 
         return todos_movimentos
 
-    def todos_movimentos(self):
+    def todos_movimentos(self, casas):
         casas_possiveis = []
 
         contador_x = [1, -1]

@@ -8,7 +8,7 @@ class Rei(Pedra):
 
         super().__init__()
         self.name = 'Rei'
-        self.Cor = cor
+        self.cor = cor
         self.coordenada_x = 4
 
         if cor == Models.Propriedades.Cor.Branca:
@@ -18,7 +18,7 @@ class Rei(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self):
+    def todos_movimentos(self, casas):
         casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]

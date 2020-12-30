@@ -23,7 +23,7 @@ class Torre(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self):
+    def todos_movimentos(self, casas):
         casas_posiveis = []
 
         contador_x = 0

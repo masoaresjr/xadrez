@@ -8,7 +8,7 @@ class Cavalo(Pedra):
 
         super().__init__()
         self.name = 'Cavalo'
-        self.Cor = cor
+        self.cor = cor
         self.Lado = lado
 
         if cor == Models.Propriedades.Cor.Branca:
@@ -23,7 +23,7 @@ class Cavalo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self):
+    def todos_movimentos(self, casas):
         casas_possiveis = []
 
         movimentos_x = [-1, 1]

@@ -8,7 +8,7 @@ class Bispo(Pedra):
 
         super().__init__()
         self.name = 'Bispo'
-        self.Cor = cor
+        self.cor = cor
         self.Lado = lado
 
         if cor == Models.Propriedades.Cor.Branca:
@@ -42,7 +42,7 @@ class Bispo(Pedra):
 
         return todos_movimentos
 
-    def todos_movimentos(self):
+    def todos_movimentos(self, casas):
         casas_possiveis = []
 
         contador_x = [1, -1]
