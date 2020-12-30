@@ -38,7 +38,7 @@ class Torre(Pedra):
 
         contador_x = 1
         while self.coordenada_x - contador_x >= 0:
-            casa_destino = casas[self.coordenada_x + contador_x][self.coordenada_y]
+            casa_destino = casas[self.coordenada_x - contador_x][self.coordenada_y]
             if casa_destino.pedra is not None:
                 if casa_destino.pedra.cor != self.cor:
                     casas_posiveis.append(casa_destino)
