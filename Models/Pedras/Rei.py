@@ -27,8 +27,12 @@ class Rei(Pedra):
         for x in movimentos_x:
             for y in movimentos_y:
                 if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7 and (x != 0 or y != 0):
-                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
-                    casas_possiveis.append(movimento_possivel)
+                    casa_destino = casas[x + self.coordenada_x][y + self.coordenada_y]
+                    if casa_destino.pedra is not None:
+                        if casa_destino.pedra.cor != self.cor:
+                            casas_possiveis.append(casa_destino)
+                        continue
+                    casas_possiveis.append(casa_destino)
 
         return casas_possiveis
 

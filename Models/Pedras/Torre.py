@@ -29,12 +29,12 @@ class Torre(Pedra):
         movimentos_eixo_x = self.movimento_direcao_unica(True, casas)
         movimentos_eixo_y = self.movimento_direcao_unica(False, casas)
 
-        casas_posiveis = list(chain(movimentos_eixo_x, movimentos_eixo_y))
+        casas_possiveis = list(chain(movimentos_eixo_x, movimentos_eixo_y))
 
-        return casas_posiveis
+        return casas_possiveis
 
     def movimento_direcao_unica(self, eixo_x, casas):
-        casas_posiveis = []
+        casas_possiveis = []
 
         if eixo_x:
             coordenada = self.__getattribute__("coordenada_x")
@@ -51,10 +51,10 @@ class Torre(Pedra):
 
             if casa_destino.pedra is not None:
                 if casa_destino.pedra.cor != self.cor:
-                    casas_posiveis.append(casa_destino)
+                    casas_possiveis.append(casa_destino)
                 break
 
-            casas_posiveis.append(casa_destino)
+            casas_possiveis.append(casa_destino)
             contador += 1
 
         contador = 1
@@ -67,10 +67,10 @@ class Torre(Pedra):
 
             if casa_destino.pedra is not None:
                 if casa_destino.pedra.cor != self.cor:
-                    casas_posiveis.append(casa_destino)
+                    casas_possiveis.append(casa_destino)
                 break
 
-            casas_posiveis.append(casa_destino)
+            casas_possiveis.append(casa_destino)
             contador += 1
 
-        return casas_posiveis
+        return casas_possiveis
