@@ -8,7 +8,7 @@ class Torre(Pedra):
 
         super().__init__()
         self.name = 'Torre'
-        self.Cor = cor
+        self.cor = cor
         self.Lado = lado
 
         if cor == Models.Propriedades.Cor.Branca:
@@ -26,20 +26,45 @@ class Torre(Pedra):
     def todos_movimentos(self, casas):
         casas_posiveis = []
 
-        contador_x = 0
-
-        while contador_x <= 7:
-            if contador_x != self.coordenada_x:
-                movimento_possivel = [contador_x, self.coordenada_x]
-                casas_posiveis.append(movimento_possivel)
+        contador_x = 1
+        while self.coordenada_x + contador_x <= 7:
+            casa_destino = casas[self.coordenada_x + contador_x][self.coordenada_y]
+            if casa_destino.pedra is not None:
+                if casa_destino.pedra.cor != self.cor:
+                    casas_posiveis.append(casa_destino)
+                break
+            casas_posiveis.append(casa_destino)
             contador_x += 1
 
-        contador_y = 0
+        contador_x = 1
+        while self.coordenada_x - contador_x >= 0:
+            casa_destino = casas[self.coordenada_x + contador_x][self.coordenada_y]
+            if casa_destino.pedra is not None:
+                if casa_destino.pedra.cor != self.cor:
+                    casas_posiveis.append(casa_destino)
+                break
+            casas_posiveis.append(casa_destino)
+            contador_x += 1
 
-        while contador_y <= 7:
-            if contador_y != self.coordenada_y:
-                movimento_possivel = [self.coordenada_y, contador_y]
-                casas_posiveis.append(movimento_possivel)
+        contador_y = 1
+        while self.coordenada_y + contador_y <= 7:
+            casa_destino = casas[self.coordenada_x][self.coordenada_y + contador_y]
+            if casa_destino.pedra is not None:
+                if casa_destino.pedra.cor != self.cor:
+                    casas_posiveis.append(casa_destino)
+                break
+            casas_posiveis.append(casa_destino)
+            contador_y += 1
+
+        contador_y = 1
+        while self.coordenada_y - contador_y >= 0:
+            casa_destino = casas[self.coordenada_x][self.coordenada_y - contador_y]
+            if casa_destino.pedra is not None:
+                if casa_destino.pedra.cor != self.cor:
+                    casas_posiveis.append(casa_destino)
+                break
+            casas_posiveis.append(casa_destino)
             contador_y += 1
 
         return casas_posiveis
+
