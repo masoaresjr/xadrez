@@ -23,12 +23,17 @@ class Bispo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def movimentos_direcao_unica(self, contador_x, contador_y):
-        todos_movimentos = []
+    def movimentos_direcao_unica(self, contador_x, contador_y, casas):
+        casas_posiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
-            movimento_possivel = [contador_x + self.coordenada_x, contador_y + self.coordenada_y]
-            todos_movimentos.append(movimento_possivel)
+            casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
+
+            if casa_destino.pedra is not None:
+                if casa_destino.pedra.cor != self.cor:
+                    casas_posiveis.append(casa_destino)
+                break
+            casas_posiveis.append(casa_destino)
 
             if contador_x > 0:
                 contador_x += 1
@@ -40,7 +45,7 @@ class Bispo(Pedra):
             else:
                 contador_y -= 1
 
-        return todos_movimentos
+        return casas_posiveis
 
     def todos_movimentos(self, casas):
         casas_possiveis = []
@@ -51,7 +56,7 @@ class Bispo(Pedra):
         movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y))
+                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y, casas))
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
