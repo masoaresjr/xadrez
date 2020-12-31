@@ -27,21 +27,6 @@ def montar_tabuleiro():
             linha += coluna
         print(linha)
 
-    print(tabuleiro[0][2].possivel_destino_de)
-    print(tabuleiro[0][3].possivel_destino_de)
-    print(tabuleiro[0][1].pedra.primeiro_posicionamento)
-    tabuleiro[0][1].pedra.atualizar_possiveis_destinos(tabuleiro)
-    print(tabuleiro[0][2].possivel_destino_de)
-    print(tabuleiro[0][3].possivel_destino_de)
-    print(tabuleiro[0][1].pedra.primeiro_posicionamento)
-
-    tabuleiro[0][2].pedra = tabuleiro[0][1].pedra
-    tabuleiro[0][2].pedra.coordenada_x = 0
-    tabuleiro[0][2].pedra.coordenada_y = 2
-    tabuleiro[0][2].pedra.atualizar_possiveis_destinos(tabuleiro)
-    print(tabuleiro[0][3].possivel_destino_de)
-    print(tabuleiro[0][4].possivel_destino_de)
-    print(tabuleiro[1][3].possivel_destino_de)
 
 def criar_pedras():
     peoes = criar_peoes()
