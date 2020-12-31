@@ -41,6 +41,7 @@ class Rainha(Pedra):
 
     def movimentos_verticais_horizontais(self, eixo_x, casas, fim_de_rodada):
         casas_possiveis = []
+        casas_destino = []
 
         if eixo_x:
             coordenada = self.__getattribute__("coordenada_x")
@@ -51,35 +52,29 @@ class Rainha(Pedra):
         while coordenada + contador <= 7:
 
             if eixo_x:
-                casa_destino = casas[self.coordenada_x + contador][self.coordenada_y]
+                casas_destino.append(casas[self.coordenada_x + contador][self.coordenada_y])
             else:
-                casa_destino = casas[self.coordenada_x][self.coordenada_y + contador]
+                casas_destino.append(casas[self.coordenada_x][self.coordenada_y + contador])
 
-            if fim_de_rodada is False:
-                if casa_destino.pedra is not None:
-                    if casa_destino.pedra.cor != self.cor:
-                        casas_possiveis.append(casa_destino)
-                    break
-
-            casas_possiveis.append(casa_destino)
             contador += 1
 
         contador = 1
         while coordenada - contador >= 0:
 
             if eixo_x:
-                casa_destino = casas[self.coordenada_x - contador][self.coordenada_y]
+                casas_destino.append(casas[self.coordenada_x - contador][self.coordenada_y])
             else:
-                casa_destino = casas[self.coordenada_x][self.coordenada_y - contador]
+                casas_destino.append(casas[self.coordenada_x][self.coordenada_y - contador])
 
-            if fim_de_rodada is False:
-                if casa_destino.pedra is not None:
-                    if casa_destino.pedra.cor != self.cor:
-                        casas_possiveis.append(casa_destino)
-                    break
-
-            casas_possiveis.append(casa_destino)
             contador += 1
+
+        for casas in casas_destino:
+            if fim_de_rodada is False:
+                    if casas.pedra is not None:
+                        if casas.pedra.cor != self.cor:
+                            casas_possiveis.append(casas)
+                        break
+            casas_possiveis.append(casas)
 
         return casas_possiveis
 
