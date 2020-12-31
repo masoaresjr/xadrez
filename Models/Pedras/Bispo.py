@@ -47,7 +47,7 @@ class Bispo(Pedra):
 
         return casas_possiveis
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         contador_x = [1, -1]
@@ -63,3 +63,6 @@ class Bispo(Pedra):
                 casas_possiveis.append(movimento)
 
         return casas_possiveis
+
+    def atualizar_possiveis_destinos(self, casas):
+        pass

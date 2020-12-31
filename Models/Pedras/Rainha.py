@@ -19,7 +19,7 @@ class Rainha(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         contador_x = [1, -1]
@@ -104,5 +104,8 @@ class Rainha(Pedra):
                 contador_y -= 1
 
         return casas_possiveis
+
+    def atualizar_possiveis_destinos(self, casas):
+        pass
 
 

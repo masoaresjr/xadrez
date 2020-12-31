@@ -18,7 +18,7 @@ class Rei(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]
@@ -36,4 +36,6 @@ class Rei(Pedra):
 
         return casas_possiveis
 
+    def atualizar_possiveis_destinos(self, casas):
+        pass
 

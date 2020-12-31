@@ -23,7 +23,7 @@ class Cavalo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         casas_destino = [self.movimentos([-1, 1], [2, -2], casas), self.movimentos([-2, 2], [1, -1], casas)]
@@ -47,3 +47,6 @@ class Cavalo(Pedra):
                         continue
                     casas_possiveis.append(casa_destino)
         return casas_possiveis
+
+    def atualizar_possiveis_destinos(self, casas):
+        pass

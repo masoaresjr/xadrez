@@ -19,7 +19,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         movimento_y = [1]
@@ -31,25 +31,46 @@ class Peao(Pedra):
                 casa_destino = casas[self.coordenada_x][self.coordenada_y + casa]
             else:
                 casa_destino = casas[self.coordenada_x][self.coordenada_y - casa]
-
-            if casa_destino.pedra is None:
-                casas_possiveis.append(casa_destino)
+            if fim_da_rodada is False:
+                if casa_destino.pedra is None:
+                    casas_possiveis.append(casa_destino)
+                else:
+                    break
             else:
-                break
+                casas_possiveis.append(casa_destino)
 
-        pode_comer = self.pode_comer(casas)
+        pode_comer = self.pode_comer(casas, fim_da_rodada)
 
         for casas in pode_comer:
             casas_possiveis.append(casas)
 
         return casas_possiveis
 
-    def pode_comer(self, casas):
+    def pode_comer(self, casas, fim_da_rodada):
         pode_comer = []
-        diagonais = [casas[self.coordenada_x - 1][self.coordenada_y + 1], casas[self.coordenada_x + 1][self.coordenada_y + 1]]
+        diagonais = []
+
+        if 0 <= self.coordenada_x + 1 <= 7:
+            diagonais.append(casas[self.coordenada_x + 1][self.coordenada_y + 1])
+        if 0 <= self.coordenada_x - 1 <= 7:
+            diagonais.append(casas[self.coordenada_x - 1][self.coordenada_y + 1])
 
         for diagonal in diagonais:
-            if diagonal.pedra is not None and diagonal.pedra.cor != self.cor:
+            if fim_da_rodada is False:
+                if diagonal.pedra is not None and diagonal.pedra.cor != self.cor:
+                    pode_comer.append(diagonal)
+            else:
                 pode_comer.append(diagonal)
 
         return pode_comer
+
+    def atualizar_possiveis_destinos(self, tabuleiro):
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
+
+        casas_destino = self.todos_movimentos(tabuleiro, True)
+
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)

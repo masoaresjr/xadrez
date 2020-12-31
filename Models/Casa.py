@@ -4,7 +4,9 @@ class Casa:
         self.pedra = pedra
         self.coordenada_x = coordenada_x
         self.coordenada_y = coordenada_y
+        self.possivel_destino_de = []
 
+    # TODO Remover possíveis movimentos das pedras comidas
     def mover(self, casa_destino, lixeiras=None):
 
         if casa_destino.pedra is not None:

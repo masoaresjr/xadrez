@@ -27,12 +27,6 @@ def montar_tabuleiro():
             linha += coluna
         print(linha)
 
-    print(casas[1][0].pedra.todos_movimentos(casas))
-    casas[3][7].pedra = casas[3][0].pedra
-    casas[3][7].pedra.coordenada_x = 3
-    casas[3][7].pedra.coordenada_y = 7
-    print(casas[3][7].pedra.todos_movimentos(casas))
-    print(len(casas[3][7].pedra.todos_movimentos(casas)))
 
 def criar_pedras():
     peoes = criar_peoes()

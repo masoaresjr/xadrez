@@ -24,7 +24,7 @@ class Torre(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas):
+    def todos_movimentos(self, casas, fim_da_rodada):
 
         movimentos_eixo_x = self.movimento_direcao_unica(True, casas)
         movimentos_eixo_y = self.movimento_direcao_unica(False, casas)
@@ -74,3 +74,6 @@ class Torre(Pedra):
             contador += 1
 
         return casas_possiveis
+
+    def atualizar_possiveis_destinos(self, casas):
+        pass
