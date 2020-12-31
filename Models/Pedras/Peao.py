@@ -20,7 +20,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def possiveis_destinos_atuais(self, tabuleiro, fim_da_rodada):
+    def possiveis_destinos(self, tabuleiro, fim_da_rodada):
         casas_possiveis = []
 
         movimento_y = [1]
@@ -70,9 +70,32 @@ class Peao(Pedra):
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
+                    self.destinos_possiveis.remove(casa)
 
-        casas_destino = self.possiveis_destinos_atuais(tabuleiro, True)
+        casas_destino = self.possiveis_destinos(tabuleiro, True)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
             self.destinos_possiveis.append(casa_destino)
+
+    def mover(self, tabuleiro):
+        pass
+
+    def possiveis_destinos_reais(self, tabuleiro):
+        casas_possiveis = []
+
+        for casa in self.destinos_possiveis:
+
+            # Se for diagonal, só move se existir uma pedra do adversário
+            if casa.coordenada_x == self.coordenada_x + 1 or casa.coordenada_x == self.coordenada_x - 1:
+                if casa.pedra is not None:
+                    if casa.pedra.cor != self.cor:
+                        casas_possiveis.append(casa)
+                        continue
+                    continue
+                continue
+
+            if casa.pedra is None:
+                casas_possiveis.append(casa)
+
+        return casas_possiveis
