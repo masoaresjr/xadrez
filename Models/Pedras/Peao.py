@@ -66,17 +66,13 @@ class Peao(Pedra):
         return pode_comer
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        if self.primeiro_posicionamento:
-            tabuleiro[self.coordenada_x][self.coordenada_y + 1].possivel_destino_de.append(self)
-            tabuleiro[self.coordenada_x][self.coordenada_y + 2].possivel_destino_de.append(self)
-            self.primeiro_posicionamento = False
-        else:
-            for linhas in tabuleiro:
-                for casa in linhas:
-                    if self in casa.possivel_destino_de:
-                        casa.possivel_destino_de.remove(self)
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
 
-            casas_destino = self.todos_movimentos(tabuleiro, True)
+        casas_destino = self.todos_movimentos(tabuleiro, True)
 
-            for casa_destino in casas_destino:
-                casa_destino.possivel_destino_de.append(self)
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)
+            self.destinos_possiveis.append(casa_destino)

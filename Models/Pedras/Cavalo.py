@@ -62,4 +62,5 @@ class Cavalo(Pedra):
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
+            self.destinos_possiveis.append(casa_destino)
 

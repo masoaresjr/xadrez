@@ -10,6 +10,7 @@ class Pedra:
         self.coordenada_y = None
         self.name = None
         self.primeiro_movimento = None
+        self.destinos_possiveis = []
 
     @abstractmethod
     def todos_movimentos(self, tabuleiro, fim_da_rodada):
