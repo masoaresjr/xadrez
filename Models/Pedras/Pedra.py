@@ -13,7 +13,7 @@ class Pedra:
         self.destinos_possiveis = []
 
     @abstractmethod
-    def todos_movimentos(self, tabuleiro, fim_da_rodada):
+    def possiveis_destinos_atuais(self, tabuleiro, fim_da_rodada):
         pass
 
     @abstractmethod

@@ -18,7 +18,7 @@ class Rei(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas, fim_da_rodada):
+    def possiveis_destinos_atuais(self, casas, fim_da_rodada):
         casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]
@@ -44,7 +44,7 @@ class Rei(Pedra):
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
 
-        casas_destino = self.todos_movimentos(tabuleiro, True)
+        casas_destino = self.possiveis_destinos_atuais(tabuleiro, True)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
