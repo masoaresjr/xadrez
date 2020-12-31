@@ -28,14 +28,24 @@ class Rei(Pedra):
             for y in movimentos_y:
                 if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7 and (x != 0 or y != 0):
                     casa_destino = casas[x + self.coordenada_x][y + self.coordenada_y]
-                    if casa_destino.pedra is not None:
-                        if casa_destino.pedra.cor != self.cor:
-                            casas_possiveis.append(casa_destino)
-                        continue
+
+                    if fim_da_rodada is False:
+                        if casa_destino.pedra is not None:
+                            if casa_destino.pedra.cor != self.cor:
+                                casas_possiveis.append(casa_destino)
+                            continue
                     casas_possiveis.append(casa_destino)
 
         return casas_possiveis
 
-    def atualizar_possiveis_destinos(self, casas):
-        pass
+    def atualizar_possiveis_destinos(self, tabuleiro):
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
+
+        casas_destino = self.todos_movimentos(tabuleiro, True)
+
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)
 
