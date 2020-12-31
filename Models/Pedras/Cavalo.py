@@ -26,22 +26,24 @@ class Cavalo(Pedra):
     def todos_movimentos(self, casas):
         casas_possiveis = []
 
-        movimentos_x = [-1, 1]
-        movimentos_y = [2, -2]
+        casas_destino = [self.movimentos([-1, 1], [2, -2], casas), self.movimentos([-2, 2], [1, -1], casas)]
 
-        for x in movimentos_x:
-            for y in movimentos_y:
-                if 0 <= y + self.coordenada_y <= 7 and 0 <= x + self.coordenada_x <= 7:
-                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
-                    casas_possiveis.append(movimento_possivel)
+        for lista_de_casas in casas_destino:
+            for casas in lista_de_casas:
+                casas_possiveis.append(casas)
 
-        movimentos_x = [-2, 2]
-        movimentos_y = [1, -1]
+        return casas_possiveis
 
-        for x in movimentos_x:
-            for y in movimentos_y:
+    def movimentos(self, coordenadas_x, coordenadas_y, casas):
+        casas_possiveis = []
+
+        for x in coordenadas_x:
+            for y in coordenadas_y:
                 if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7:
-                    movimento_possivel = [x + self.coordenada_x, y + self.coordenada_y]
-                    casas_possiveis.append(movimento_possivel)
-
+                    casa_destino = casas[x + self.coordenada_x][y + self.coordenada_y]
+                    if casa_destino.pedra is not None:
+                        if casa_destino.pedra.cor != self.cor:
+                            casas_possiveis.append(casa_destino)
+                        continue
+                    casas_possiveis.append(casa_destino)
         return casas_possiveis
