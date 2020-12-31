@@ -23,16 +23,17 @@ class Bispo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def movimentos_direcao_unica(self, contador_x, contador_y, casas):
+    def movimentos_direcao_unica(self, contador_x, contador_y, casas, fim_da_rodada):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
             casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
-            if casa_destino.pedra is not None:
-                if casa_destino.pedra.cor != self.cor:
-                    casas_possiveis.append(casa_destino)
-                break
+            if fim_da_rodada is False:
+                if casa_destino.pedra is not None:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
             casas_possiveis.append(casa_destino)
 
             if contador_x > 0:
@@ -56,7 +57,7 @@ class Bispo(Pedra):
         movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y, casas))
+                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y, casas, fim_da_rodada))
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
@@ -64,5 +65,13 @@ class Bispo(Pedra):
 
         return casas_possiveis
 
-    def atualizar_possiveis_destinos(self, casas):
-        pass
+    def atualizar_possiveis_destinos(self, tabuleiro):
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
+
+        casas_destino = self.todos_movimentos(tabuleiro, True)
+
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)
