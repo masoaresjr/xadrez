@@ -12,9 +12,9 @@ class Pedra:
         self.primeiro_movimento = None
 
     @abstractmethod
-    def todos_movimentos(self, casas, fim_da_rodada):
+    def todos_movimentos(self, tabuleiro, fim_da_rodada):
         pass
 
     @abstractmethod
-    def atualizar_possiveis_destinos(self, casas):
+    def atualizar_possiveis_destinos(self, tabuleiro):
         pass

@@ -7,6 +7,7 @@ class Peao(Pedra):
     def __init__(self, cor, coordenada_x):
 
         super().__init__()
+        self.primeiro_posicionamento = True
         self.primeiro_movimento = True
         self.name = 'Peão'
         self.cor = cor
@@ -19,7 +20,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_movimentos(self, casas, fim_da_rodada):
+    def todos_movimentos(self, tabuleiro, fim_da_rodada):
         casas_possiveis = []
 
         movimento_y = [1]
@@ -28,9 +29,9 @@ class Peao(Pedra):
 
         for casa in movimento_y:
             if self.cor == Models.Propriedades.Cor.Branca:
-                casa_destino = casas[self.coordenada_x][self.coordenada_y + casa]
+                casa_destino = tabuleiro[self.coordenada_x][self.coordenada_y + casa]
             else:
-                casa_destino = casas[self.coordenada_x][self.coordenada_y - casa]
+                casa_destino = tabuleiro[self.coordenada_x][self.coordenada_y - casa]
             if fim_da_rodada is False:
                 if casa_destino.pedra is None:
                     casas_possiveis.append(casa_destino)
@@ -39,21 +40,21 @@ class Peao(Pedra):
             else:
                 casas_possiveis.append(casa_destino)
 
-        pode_comer = self.pode_comer(casas, fim_da_rodada)
+        pode_comer = self.pode_comer(tabuleiro, fim_da_rodada)
 
         for casas in pode_comer:
             casas_possiveis.append(casas)
 
         return casas_possiveis
 
-    def pode_comer(self, casas, fim_da_rodada):
+    def pode_comer(self, tabuleiro, fim_da_rodada):
         pode_comer = []
         diagonais = []
 
         if 0 <= self.coordenada_x + 1 <= 7:
-            diagonais.append(casas[self.coordenada_x + 1][self.coordenada_y + 1])
+            diagonais.append(tabuleiro[self.coordenada_x + 1][self.coordenada_y + 1])
         if 0 <= self.coordenada_x - 1 <= 7:
-            diagonais.append(casas[self.coordenada_x - 1][self.coordenada_y + 1])
+            diagonais.append(tabuleiro[self.coordenada_x - 1][self.coordenada_y + 1])
 
         for diagonal in diagonais:
             if fim_da_rodada is False:
@@ -65,12 +66,17 @@ class Peao(Pedra):
         return pode_comer
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
-            for casa in linhas:
-                if self in casa.possivel_destino_de:
-                    casa.possivel_destino_de.remove(self)
+        if self.primeiro_posicionamento:
+            tabuleiro[self.coordenada_x][self.coordenada_y + 1].possivel_destino_de.append(self)
+            tabuleiro[self.coordenada_x][self.coordenada_y + 2].possivel_destino_de.append(self)
+            self.primeiro_posicionamento = False
+        else:
+            for linhas in tabuleiro:
+                for casa in linhas:
+                    if self in casa.possivel_destino_de:
+                        casa.possivel_destino_de.remove(self)
 
-        casas_destino = self.todos_movimentos(tabuleiro, True)
+            casas_destino = self.todos_movimentos(tabuleiro, True)
 
-        for casa_destino in casas_destino:
-            casa_destino.possivel_destino_de.append(self)
+            for casa_destino in casas_destino:
+                casa_destino.possivel_destino_de.append(self)
