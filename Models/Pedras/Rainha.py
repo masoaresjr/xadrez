@@ -28,10 +28,10 @@ class Rainha(Pedra):
         movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, casas))
+                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, casas, fim_da_rodada))
 
-        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(True, casas))
-        movimentos_direcao_unica .append(self.movimentos_verticais_horizontais(False, casas))
+        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(True, casas, fim_da_rodada))
+        movimentos_direcao_unica .append(self.movimentos_verticais_horizontais(False, casas, fim_da_rodada))
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
@@ -39,7 +39,7 @@ class Rainha(Pedra):
 
         return casas_possiveis
 
-    def movimentos_verticais_horizontais(self, eixo_x, casas):
+    def movimentos_verticais_horizontais(self, eixo_x, casas, fim_de_rodada):
         casas_possiveis = []
 
         if eixo_x:
@@ -55,10 +55,11 @@ class Rainha(Pedra):
             else:
                 casa_destino = casas[self.coordenada_x][self.coordenada_y + contador]
 
-            if casa_destino.pedra is not None:
-                if casa_destino.pedra.cor != self.cor:
-                    casas_possiveis.append(casa_destino)
-                break
+            if fim_de_rodada is False:
+                if casa_destino.pedra is not None:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
 
             casas_possiveis.append(casa_destino)
             contador += 1
@@ -71,26 +72,28 @@ class Rainha(Pedra):
             else:
                 casa_destino = casas[self.coordenada_x][self.coordenada_y - contador]
 
-            if casa_destino.pedra is not None:
-                if casa_destino.pedra.cor != self.cor:
-                    casas_possiveis.append(casa_destino)
-                break
+            if fim_de_rodada is False:
+                if casa_destino.pedra is not None:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
 
             casas_possiveis.append(casa_destino)
             contador += 1
 
         return casas_possiveis
 
-    def movimentos_diagonais(self, contador_x, contador_y, casas):
+    def movimentos_diagonais(self, contador_x, contador_y, casas, fim_de_rodada):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
             casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
-            if casa_destino.pedra is not None:
-                if casa_destino.pedra.cor != self.cor:
-                    casas_possiveis.append(casa_destino)
-                break
+            if fim_de_rodada is False:
+                if casa_destino.pedra is not None:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
             casas_possiveis.append(casa_destino)
 
             if contador_x > 0:
@@ -105,7 +108,15 @@ class Rainha(Pedra):
 
         return casas_possiveis
 
-    def atualizar_possiveis_destinos(self, casas):
-        pass
+    def atualizar_possiveis_destinos(self, tabuleiro):
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
+
+        casas_destino = self.todos_movimentos(tabuleiro, True)
+
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)
 
 

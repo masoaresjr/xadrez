@@ -13,7 +13,8 @@ from itertools import chain
 def montar_tabuleiro():
     pedras = criar_pedras()
     tabuleiro = posicionar_pedras(pedras, criar_casas())
-    lixeiras = [Models.Lixeira.Lixeira(Models.Propriedades.Cor.Branca), Models.Lixeira.Lixeira(Models.Propriedades.Cor.Preta)]
+    lixeiras = [Models.Lixeira.Lixeira(Models.Propriedades.Cor.Branca)
+        , Models.Lixeira.Lixeira(Models.Propriedades.Cor.Preta)]
 
     for index in range(8):
         linha = ""
