@@ -1,6 +1,5 @@
 from Models.Pedras.Pedra import Pedra
 import Models.Propriedades
-from itertools import chain
 
 
 class Rainha(Pedra):
@@ -19,7 +18,7 @@ class Rainha(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def possiveis_destinos(self, casas, fim_da_rodada):
+    def todos_possiveis_destinos(self, casas):
         casas_possiveis = []
 
         contador_x = [1, -1]
@@ -28,10 +27,10 @@ class Rainha(Pedra):
         movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, casas, fim_da_rodada))
+                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, casas))
 
-        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(True, casas, fim_da_rodada))
-        movimentos_direcao_unica .append(self.movimentos_verticais_horizontais(False, casas, fim_da_rodada))
+        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(True, casas))
+        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(False, casas))
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
@@ -39,7 +38,26 @@ class Rainha(Pedra):
 
         return casas_possiveis
 
-    def movimentos_verticais_horizontais(self, eixo_x, casas, fim_de_rodada):
+    def atualizar_possiveis_destinos(self, tabuleiro):
+        for linhas in tabuleiro:
+            for casa in linhas:
+                if self in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(self)
+                    self.possiveis_destinos.remove(casa)
+
+        casas_destino = self.todos_possiveis_destinos(tabuleiro)
+
+        for casa_destino in casas_destino:
+            casa_destino.possivel_destino_de.append(self)
+            self.possiveis_destinos.append(casa_destino)
+
+    def possiveis_destinos_reais(self, tabuleiro):
+        pass
+
+    def mover(self, tabuleiro):
+        pass
+
+    def movimentos_verticais_horizontais(self, eixo_x, casas):
         casas_possiveis = []
         casas_destino = []
 
@@ -69,26 +87,16 @@ class Rainha(Pedra):
             contador += 1
 
         for casas in casas_destino:
-            if fim_de_rodada is False:
-                    if casas.pedra is not None:
-                        if casas.pedra.cor != self.cor:
-                            casas_possiveis.append(casas)
-                        break
             casas_possiveis.append(casas)
 
         return casas_possiveis
 
-    def movimentos_diagonais(self, contador_x, contador_y, casas, fim_de_rodada):
+    def movimentos_diagonais(self, contador_x, contador_y, casas):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
             casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
-            if fim_de_rodada is False:
-                if casa_destino.pedra is not None:
-                    if casa_destino.pedra.cor != self.cor:
-                        casas_possiveis.append(casa_destino)
-                    break
             casas_possiveis.append(casa_destino)
 
             if contador_x > 0:
@@ -102,22 +110,3 @@ class Rainha(Pedra):
                 contador_y -= 1
 
         return casas_possiveis
-
-    def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
-            for casa in linhas:
-                if self in casa.possivel_destino_de:
-                    casa.possivel_destino_de.remove(self)
-
-        casas_destino = self.possiveis_destinos(tabuleiro, True)
-
-        for casa_destino in casas_destino:
-            casa_destino.possivel_destino_de.append(self)
-            self.destinos_possiveis.append(casa_destino)
-
-    def mover(self, tabuleiro):
-        pass
-
-    def possiveis_destinos_reais(self, tabuleiro):
-        pass
-

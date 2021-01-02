@@ -23,32 +23,15 @@ class Cavalo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def possiveis_destinos(self, tabuleiro, fim_da_rodada):
+    def todos_possiveis_destinos(self, tabuleiro):
         casas_possiveis = []
 
-        casas_destino = [self.movimentos([-1, 1], [2, -2], tabuleiro, fim_da_rodada),
-                         self.movimentos([-2, 2], [1, -1], tabuleiro, fim_da_rodada)]
+        casas_destino = [self.movimentos([-1, 1], [2, -2], tabuleiro),
+                         self.movimentos([-2, 2], [1, -1], tabuleiro)]
 
         for lista_de_casas in casas_destino:
             for casas in lista_de_casas:
                 casas_possiveis.append(casas)
-
-        return casas_possiveis
-
-    def movimentos(self, coordenadas_x, coordenadas_y, tabuleiro, fim_da_rodada):
-        casas_possiveis = []
-
-        for x in coordenadas_x:
-            for y in coordenadas_y:
-                if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7:
-                    casa_destino = tabuleiro[x + self.coordenada_x][y + self.coordenada_y]
-
-                    if fim_da_rodada is False:
-                        if casa_destino.pedra is not None:
-                            if casa_destino.pedra.cor != self.cor:
-                                casas_possiveis.append(casa_destino)
-                            continue
-                    casas_possiveis.append(casa_destino)
 
         return casas_possiveis
 
@@ -57,16 +40,29 @@ class Cavalo(Pedra):
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
+                    self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.possiveis_destinos(tabuleiro, True)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
-            self.destinos_possiveis.append(casa_destino)
+            self.possiveis_destinos.append(casa_destino)
+
+    def possiveis_destinos_reais(self, tabuleiro):
+        pass
 
     def mover(self, tabuleiro):
         pass
 
-    def possiveis_destinos_reais(self, tabuleiro):
-        pass
+    def movimentos(self, coordenadas_x, coordenadas_y, tabuleiro):
+        casas_possiveis = []
+
+        for x in coordenadas_x:
+            for y in coordenadas_y:
+                if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7:
+                    casa_destino = tabuleiro[x + self.coordenada_x][y + self.coordenada_y]
+
+                    casas_possiveis.append(casa_destino)
+
+        return casas_possiveis
 
