@@ -15,8 +15,8 @@ class Pedra:
     @abstractmethod
     def todos_possiveis_destinos(self, tabuleiro):
         # Usado para retornar os possíveis movimentos para uma eventual próxima rodada.
-        # Outras pedras no tabuleiro não interferem no resultado desse método
-        # Isso porque na eventual próxima rodada o tabuleiro vai ter sido alterado
+        # Outras pedras no tabuleiro não interferem no resultado desse método,
+        #  isso porque na eventual próxima rodada o tabuleiro vai ter sido alterado
         # Também tende a ser usado para validar quais pedras podem ameaçar o rei adversário
         pass
 

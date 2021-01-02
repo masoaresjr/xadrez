@@ -49,7 +49,16 @@ class Cavalo(Pedra):
             self.possiveis_destinos.append(casa_destino)
 
     def possiveis_destinos_reais(self, tabuleiro):
-        pass
+        casas_possiveis = []
+
+        for casa in self.possiveis_destinos:
+            if casa.pedra is not None:
+                if casa.pedra.cor != self.cor:
+                    casas_possiveis.append(casa)
+                continue
+            casas_possiveis.append(casa)
+
+        return casas_possiveis
 
     def mover(self, tabuleiro):
         pass
