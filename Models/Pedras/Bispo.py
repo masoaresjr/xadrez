@@ -23,7 +23,7 @@ class Bispo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, casas):
+    def todos_possiveis_destinos(self, casas, atualizar_proximos_destinos):
         casas_possiveis = []
 
         contador_x = [1, -1]
@@ -32,11 +32,11 @@ class Bispo(Pedra):
         movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y, casas))
+                movimentos_direcao_unica.append(self.movimentos_direcao_unica(x, y, casas, atualizar_proximos_destinos))
 
         for direcao in movimentos_direcao_unica:
-            for movimento in direcao:
-                casas_possiveis.append(movimento)
+            for casa in direcao:
+                casas_possiveis.append(casa)
 
         return casas_possiveis
 
@@ -47,25 +47,30 @@ class Bispo(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
             self.possiveis_destinos.append(casa_destino)
 
-    def possiveis_destinos_reais(self, tabuleiro):
-        pass
-
     def mover(self, tabuleiro):
         pass
 
-    def movimentos_direcao_unica(self, contador_x, contador_y, casas):
+    def movimentos_direcao_unica(self, contador_x, contador_y, casas, atualizar_proximos_destinos):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
             casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
-            casas_possiveis.append(casa_destino)
+            if atualizar_proximos_destinos is True:
+                casas_possiveis.append(casa_destino)
+            else:
+                if casa_destino.pedra is None:
+                    casas_possiveis.append(casa_destino)
+                else:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
 
             if contador_x > 0:
                 contador_x += 1

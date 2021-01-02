@@ -20,7 +20,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
         movimento_y = [1]
@@ -33,9 +33,13 @@ class Peao(Pedra):
             else:
                 casa_destino = tabuleiro[self.coordenada_x][self.coordenada_y - casa]
 
+            if atualizar_proximos_destinos is False:
+                if casa_destino.pedra is not None:
+                    break
+
             casas_possiveis.append(casa_destino)
 
-        pode_comer = self.pode_comer(tabuleiro)
+        pode_comer = self.pode_comer(tabuleiro, atualizar_proximos_destinos)
 
         for casas in pode_comer:
             casas_possiveis.append(casas)
@@ -49,36 +53,18 @@ class Peao(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
             self.possiveis_destinos.append(casa_destino)
 
-    def possiveis_destinos_reais(self, tabuleiro):
-        casas_possiveis = []
-
-        for casa in self.possiveis_destinos:
-
-            # Se for diagonal, só move se existir uma pedra do adversário
-            if casa.coordenada_x == self.coordenada_x + 1 or casa.coordenada_x == self.coordenada_x - 1:
-                if casa.pedra is not None:
-                    if casa.pedra.cor != self.cor:
-                        casas_possiveis.append(casa)
-                        continue
-                    continue
-                continue
-
-            if casa.pedra is None:
-                casas_possiveis.append(casa)
-
-        return casas_possiveis
-
     def mover(self, tabuleiro):
         pass
 
-    def pode_comer(self, tabuleiro):
+    def pode_comer(self, tabuleiro, atualizar_proximos_destinos):
         pode_comer = []
+        casas_possiveis = []
 
         if self.cor == Models.Propriedades.Cor.Branca:
             movimento_y = 1
@@ -86,8 +72,16 @@ class Peao(Pedra):
             movimento_y = -1
 
         if 0 <= self.coordenada_x + 1 <= 7:
-            pode_comer.append(tabuleiro[self.coordenada_x + 1][self.coordenada_y + movimento_y])
+            casas_possiveis.append(tabuleiro[self.coordenada_x + 1][self.coordenada_y + movimento_y])
         if 0 <= self.coordenada_x - 1 <= 7:
-            pode_comer.append(tabuleiro[self.coordenada_x - 1][self.coordenada_y + movimento_y])
+            casas_possiveis.append(tabuleiro[self.coordenada_x - 1][self.coordenada_y + movimento_y])
+
+        for casa in casas_possiveis:
+            if atualizar_proximos_destinos is True:
+                pode_comer.append(casa)
+            else:
+                if casa.pedra is not None:
+                    if casa.pedra.cor != self.cor:
+                        pode_comer.append(casa)
 
         return pode_comer

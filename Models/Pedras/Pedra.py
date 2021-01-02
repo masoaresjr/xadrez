@@ -13,25 +13,24 @@ class Pedra:
         self.possiveis_destinos = []
 
     @abstractmethod
-    def todos_possiveis_destinos(self, tabuleiro):
-        # Usado para retornar os possíveis movimentos para uma eventual próxima rodada.
-        # Outras pedras no tabuleiro não interferem no resultado desse método,
-        #  isso porque na eventual próxima rodada o tabuleiro vai ter sido alterado
-        # Também tende a ser usado para validar quais pedras podem ameaçar o rei adversário
-        pass
-
-    @abstractmethod
-    def possiveis_destinos_reais(self, tabuleiro):
-        # Usado para mostrar os possíveis movimentos para a rodada atual
-        # Usa a propriedade atualizada pelo método atualizar_possiveis_destinos e
-        #   valida possíveis bloqueios por outras pedras
-        # Usado no começo da rodada
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
+        # Usado para retornar os possíveis movimentos
+        # atualizar_proximos_destinos == False: Início da Rodada
+        # atualizar_proximos_destinos == True: Fim da Rodada
+        # Caso atualizar_proximos_destinos seja True, ira desconsiderar possiveis bloqueios por outras pedras,
+        #   pois não estará sendo usado para indicar os atuais movimentos da pedra escolhida,
+        #   mas sim mostrar quais possiveis destinos a pedra pode ter em uma eventual próxima rodada.
         pass
 
     @abstractmethod
     def atualizar_possiveis_destinos(self, tabuleiro):
         # Método responsável por atualizar a propriedade possiveis_destinos
-        #   que será usada pelo método possiveis_destinos_reais
+        # O motivo de gravar todos os possiveis destinos, mesmo que existam pedras no meio do caminho, é justamente pra
+        #   validar se caso essa pedra, que está entre a origem e o destino da pedra escolhida, se mover para uma outra
+        #   posição deixará o próprio rei em cheque. Isso será possível de validar pois ao gravar todos os possíveis
+        #   movimentos de outras pedras, já saberemos quais delas estão mirando pro rei,
+        #   tendo, ou não, outras pedras no caminho
+        # Também será usado para impedir que o rei se mova diretamente para uma casa na mira de uma pedra adversária.
         # Usado no fim da rodada
         pass
 

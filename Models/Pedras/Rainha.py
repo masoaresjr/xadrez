@@ -18,19 +18,33 @@ class Rainha(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, casas):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
+        movimentos_direcao_unica = []
         contador_x = [1, -1]
         contador_y = [1, -1]
 
-        movimentos_direcao_unica = []
         for x in contador_x:
             for y in contador_y:
-                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, casas))
+                movimentos_direcao_unica.append(self.movimentos_diagonais(x, y, tabuleiro, atualizar_proximos_destinos))
 
-        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(True, casas))
-        movimentos_direcao_unica.append(self.movimentos_verticais_horizontais(False, casas))
+        for direcao in movimentos_direcao_unica:
+            for movimento in direcao:
+                casas_possiveis.append(movimento)
+
+        movimentos_direcao_unica = []
+        contador_x = [1, 0, -1]
+        contador_y = [1, 0, -1]
+
+        for x in contador_x:
+            for y in contador_y:
+                if (x == 0 and y != 0) or (x != 0 and y == 0):  # Movimento só pode ser Horizontal OU Vertical
+                    movimentos_direcao_unica.append(
+                        self.movimentos_verticais_horizontais(tabuleiro, atualizar_proximos_destinos,
+                                                              x, y
+                                                              )
+                    )
 
         for direcao in movimentos_direcao_unica:
             for movimento in direcao:
@@ -45,59 +59,63 @@ class Rainha(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
             self.possiveis_destinos.append(casa_destino)
 
-    def possiveis_destinos_reais(self, tabuleiro):
-        pass
-
     def mover(self, tabuleiro):
         pass
 
-    def movimentos_verticais_horizontais(self, eixo_x, casas):
+    def movimentos_verticais_horizontais(self, tabuleiro, atualizar_proximos_destinos, contador_x, contador_y):
         casas_possiveis = []
         casas_destino = []
 
-        if eixo_x:
-            coordenada = self.__getattribute__("coordenada_x")
-        else:
-            coordenada = self.__getattribute__("coordenada_y")
+        if contador_y == 0:  # Movimento em X
+            while 0 <= self.coordenada_x + contador_x <= 7:
+                casas_destino.append(tabuleiro[self.coordenada_x + contador_x][self.coordenada_y])
+                if contador_x > 0:
+                    contador_x += 1
+                else:
+                    contador_x -= 1
 
-        contador = 1
-        while coordenada + contador <= 7:
+        elif contador_x == 0:  # Movimento em Y
+            while 0 <= self.coordenada_y + contador_y <= 7:
+                casas_destino.append(tabuleiro[self.coordenada_x][self.coordenada_y + contador_y])
+                if contador_y > 0:
+                    contador_y += 1
+                else:
+                    contador_y -= 1
 
-            if eixo_x:
-                casas_destino.append(casas[self.coordenada_x + contador][self.coordenada_y])
+        for casa in casas_destino:
+            if atualizar_proximos_destinos is True:
+                casas_possiveis.append(casa)
             else:
-                casas_destino.append(casas[self.coordenada_x][self.coordenada_y + contador])
-
-            contador += 1
-
-        contador = 1
-        while coordenada - contador >= 0:
-
-            if eixo_x:
-                casas_destino.append(casas[self.coordenada_x - contador][self.coordenada_y])
-            else:
-                casas_destino.append(casas[self.coordenada_x][self.coordenada_y - contador])
-
-            contador += 1
-
-        for casas in casas_destino:
-            casas_possiveis.append(casas)
+                if casa.pedra is not None:
+                    if casa.pedra.cor != self.cor:
+                        casas_possiveis.append(casa)
+                    break
+                else:
+                    casas_possiveis.append(casa)
 
         return casas_possiveis
 
-    def movimentos_diagonais(self, contador_x, contador_y, casas):
+    def movimentos_diagonais(self, contador_x, contador_y, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
-            casa_destino = casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
+            casa_destino = tabuleiro[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
-            casas_possiveis.append(casa_destino)
+            if atualizar_proximos_destinos is True:
+                casas_possiveis.append(casa_destino)
+            else:
+                if casa_destino.pedra is None:
+                    casas_possiveis.append(casa_destino)
+                else:
+                    if casa_destino.pedra.cor != self.cor:
+                        casas_possiveis.append(casa_destino)
+                    break
 
             if contador_x > 0:
                 contador_x += 1
