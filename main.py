@@ -1,3 +1,4 @@
+from Models.Tabuleiro import Tabuleiro
 from Models.Casa import Casa
 from Models.Pedras.Peao import Peao
 from Models.Pedras.Torre import Torre
@@ -12,13 +13,13 @@ from itertools import chain
 
 def montar_tabuleiro():
     pedras = criar_pedras()
-    tabuleiro = posicionar_pedras(pedras, criar_casas())
+    tabuleiro = posicionar_pedras(pedras, criar_tabuleiro())
     lixeiras = [Models.Lixeira.Lixeira(Models.Propriedades.Cor.Branca)
         , Models.Lixeira.Lixeira(Models.Propriedades.Cor.Preta)]
 
     for index in range(8):
         linha = ""
-        for i in tabuleiro:
+        for i in tabuleiro.casas:
             coluna = " | "
             pedra = i[index].pedra
             if pedra is not None:
@@ -109,24 +110,24 @@ def criar_realeza():
     return realeza
 
 
-def criar_casas():
-    casas = []
+def criar_tabuleiro():
+    tabuleiro = Tabuleiro()
 
     for coordenada_x in range(8):
         nova_linha = []
         for coordenada_y in range(8):
             nova_linha.append(Casa(coordenada_x, coordenada_y))
-        casas.append(nova_linha)
+        tabuleiro.casas.append(nova_linha)
 
-    return casas
+    return tabuleiro
 
 
-def posicionar_pedras(pedras, casas):
+def posicionar_pedras(pedras, tabuleiro):
     for pedra in pedras:
-        casa = (casas[pedra.coordenada_x])[pedra.coordenada_y]
+        casa = (tabuleiro.casas[pedra.coordenada_x])[pedra.coordenada_y]
         casa.pedra = pedra
 
-    return casas
+    return tabuleiro
 
 
 montar_tabuleiro()

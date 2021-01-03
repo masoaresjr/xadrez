@@ -6,10 +6,14 @@ class Casa:
         self.coordenada_y = coordenada_y
         self.possivel_destino_de = []
 
-    # TODO Remover possíveis movimentos das pedras comidas
-    def mover(self, casa_destino, lixeiras=None):
+    def mover(self, casa_destino, tabuleiro, lixeiras=None):
 
         if casa_destino.pedra is not None:
+
+            for casa in tabuleiro:
+                if casa_destino.pedra in casa.possivel_destino_de:
+                    casa.possivel_destino_de.remove(casa_destino.pedra)
+
             for lixeira in lixeiras:
                 if lixeira.cor == casa_destino.pedra.cor:
                     lixeira.pedras.append(casa_destino.pedra)
