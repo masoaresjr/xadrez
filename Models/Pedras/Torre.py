@@ -1,4 +1,5 @@
 from Models.Pedras.Pedra import Pedra
+from Models.Tabuleiro import Tabuleiro
 import Models.Propriedades
 from itertools import chain
 
@@ -45,7 +46,7 @@ class Torre(Pedra):
         return casas_possiveis
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
+        for linhas in tabuleiro.casas:
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
@@ -66,7 +67,7 @@ class Torre(Pedra):
 
         if contador_y == 0:  # Movimento em X
             while 0 <= self.coordenada_x + contador_x <= 7:
-                casas_destino.append(tabuleiro[self.coordenada_x + contador_x][self.coordenada_y])
+                casas_destino.append(tabuleiro.casas[self.coordenada_x + contador_x][self.coordenada_y])
                 if contador_x > 0:
                     contador_x += 1
                 else:
@@ -74,7 +75,7 @@ class Torre(Pedra):
 
         elif contador_x == 0:  # Movimento em Y
             while 0 <= self.coordenada_y + contador_y <= 7:
-                casas_destino.append(tabuleiro[self.coordenada_x][self.coordenada_y + contador_y])
+                casas_destino.append(tabuleiro.casas[self.coordenada_x][self.coordenada_y + contador_y])
                 if contador_y > 0:
                     contador_y += 1
                 else:

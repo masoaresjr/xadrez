@@ -18,7 +18,7 @@ class Rei(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, casas, atualizar_proximos_destinos):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]
@@ -27,7 +27,7 @@ class Rei(Pedra):
         for x in movimentos_x:
             for y in movimentos_y:
                 if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7 and (x != 0 or y != 0):
-                    casa_destino = casas[x + self.coordenada_x][y + self.coordenada_y]
+                    casa_destino = tabuleiro.casas[x + self.coordenada_x][y + self.coordenada_y]
 
                     if atualizar_proximos_destinos is True:
                         casas_possiveis.append(casa_destino)
@@ -41,7 +41,7 @@ class Rei(Pedra):
         return casas_possiveis
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
+        for linhas in tabuleiro.casas:
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)

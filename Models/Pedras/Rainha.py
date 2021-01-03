@@ -53,7 +53,7 @@ class Rainha(Pedra):
         return casas_possiveis
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
+        for linhas in tabuleiro.casas:
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
@@ -74,7 +74,7 @@ class Rainha(Pedra):
 
         if contador_y == 0:  # Movimento em X
             while 0 <= self.coordenada_x + contador_x <= 7:
-                casas_destino.append(tabuleiro[self.coordenada_x + contador_x][self.coordenada_y])
+                casas_destino.append(tabuleiro.casas[self.coordenada_x + contador_x][self.coordenada_y])
                 if contador_x > 0:
                     contador_x += 1
                 else:
@@ -82,7 +82,7 @@ class Rainha(Pedra):
 
         elif contador_x == 0:  # Movimento em Y
             while 0 <= self.coordenada_y + contador_y <= 7:
-                casas_destino.append(tabuleiro[self.coordenada_x][self.coordenada_y + contador_y])
+                casas_destino.append(tabuleiro.casas[self.coordenada_x][self.coordenada_y + contador_y])
                 if contador_y > 0:
                     contador_y += 1
                 else:
@@ -105,7 +105,7 @@ class Rainha(Pedra):
         casas_possiveis = []
 
         while 0 <= contador_x + self.coordenada_x <= 7 and 0 <= contador_y + self.coordenada_y <= 7:
-            casa_destino = tabuleiro[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
+            casa_destino = tabuleiro.casas[contador_x + self.coordenada_x][contador_y + self.coordenada_y]
 
             if atualizar_proximos_destinos is True:
                 casas_possiveis.append(casa_destino)

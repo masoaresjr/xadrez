@@ -36,7 +36,7 @@ class Cavalo(Pedra):
         return casas_possiveis
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
+        for linhas in tabuleiro.casas:
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
@@ -57,7 +57,7 @@ class Cavalo(Pedra):
         for x in coordenadas_x:
             for y in coordenadas_y:
                 if 0 <= x + self.coordenada_x <= 7 and 0 <= y + self.coordenada_y <= 7:
-                    casa_destino = tabuleiro[x + self.coordenada_x][y + self.coordenada_y]
+                    casa_destino = tabuleiro.casas[x + self.coordenada_x][y + self.coordenada_y]
 
                     if atualizar_proximos_destinos is True:
                         casas_possiveis.append(casa_destino)

@@ -1,4 +1,5 @@
 from Models.Pedras.Pedra import Pedra
+from Models.Tabuleiro import Tabuleiro
 import Models.Propriedades
 
 
@@ -29,9 +30,9 @@ class Peao(Pedra):
 
         for casa in movimento_y:
             if self.cor == Models.Propriedades.Cor.Branca:
-                casa_destino = tabuleiro[self.coordenada_x][self.coordenada_y + casa]
+                casa_destino = tabuleiro.casas[self.coordenada_x][self.coordenada_y + casa]
             else:
-                casa_destino = tabuleiro[self.coordenada_x][self.coordenada_y - casa]
+                casa_destino = tabuleiro.casas[self.coordenada_x][self.coordenada_y - casa]
 
             if atualizar_proximos_destinos is False:
                 if casa_destino.pedra is not None:
@@ -47,7 +48,7 @@ class Peao(Pedra):
         return casas_possiveis
 
     def atualizar_possiveis_destinos(self, tabuleiro):
-        for linhas in tabuleiro:
+        for linhas in tabuleiro.casas:
             for casa in linhas:
                 if self in casa.possivel_destino_de:
                     casa.possivel_destino_de.remove(self)
@@ -72,9 +73,9 @@ class Peao(Pedra):
             movimento_y = -1
 
         if 0 <= self.coordenada_x + 1 <= 7:
-            casas_possiveis.append(tabuleiro[self.coordenada_x + 1][self.coordenada_y + movimento_y])
+            casas_possiveis.append(tabuleiro.casas[self.coordenada_x + 1][self.coordenada_y + movimento_y])
         if 0 <= self.coordenada_x - 1 <= 7:
-            casas_possiveis.append(tabuleiro[self.coordenada_x - 1][self.coordenada_y + movimento_y])
+            casas_possiveis.append(tabuleiro.casas[self.coordenada_x - 1][self.coordenada_y + movimento_y])
 
         for casa in casas_possiveis:
             if atualizar_proximos_destinos is True:
