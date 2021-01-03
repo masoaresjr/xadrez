@@ -52,7 +52,7 @@ class Torre(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro, False)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)

@@ -18,8 +18,9 @@ class Pedra:
         # atualizar_proximos_destinos == False: Início da Rodada
         # atualizar_proximos_destinos == True: Fim da Rodada
         # Caso atualizar_proximos_destinos seja True, ira desconsiderar possiveis bloqueios por outras pedras,
-        #   pois não estará sendo usado para indicar os atuais movimentos da pedra escolhida,
-        #   mas sim mostrar quais possiveis destinos a pedra pode ter em uma eventual próxima rodada.
+        #   e também não valida se o movimento pode deixar o rei aliado em cheque, pois não estará sendo usado
+        #   para indicar os atuais movimentos da pedra escolhida, mas sim mostrar quais possiveis destinos que a
+        #   pedra pode ter em uma eventual próxima rodada.
         pass
 
     @abstractmethod

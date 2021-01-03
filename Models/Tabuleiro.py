@@ -12,5 +12,4 @@ class Tabuleiro:
                     if casa.pedra.name == "Rei":
                         if casa.pedra.cor == cor:
                             casa_do_rei = casa
-
         return casa_do_rei
