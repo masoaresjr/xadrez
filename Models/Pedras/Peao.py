@@ -20,7 +20,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
         todas_casas_possiveis = []
         casas_possiveis_reais = []
 
@@ -45,13 +45,11 @@ class Peao(Pedra):
         for casas in pode_comer:
             todas_casas_possiveis.append(casas)
 
-        casa_atual_do_rei = tabuleiro.pegar_rei(self.cor)
-
         if atualizar_proximos_destinos is True:
             return todas_casas_possiveis
         else:
             for casa_destino in todas_casas_possiveis:
-                rei_em_cheque = self.rei_em_cheque(tabuleiro, casa_atual_do_rei, casa_destino)
+                rei_em_cheque = self.rei_em_cheque(tabuleiro, tabuleiro.pegar_rei(self.cor), casa_destino)
                 if rei_em_cheque is False:
                     casas_possiveis_reais.append(casa_destino)
 
@@ -64,31 +62,11 @@ class Peao(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
             self.possiveis_destinos.append(casa_destino)
-
-    def rei_em_cheque(self, tabuleiro, casa_atual_do_rei, casa_destino):
-        rei_em_cheque = False
-        coordenada_x_atual = self.coordenada_x
-        coordenada_y_atual = self.coordenada_y
-
-        self.mover_temporariamente(tabuleiro, casa_destino)
-        for pedra in casa_atual_do_rei.possivel_destino_de:
-            if pedra.cor != casa_atual_do_rei.pedra.cor:
-                todos_possiveis_destinos = pedra.todos_possiveis_destinos(tabuleiro, False)
-                if casa_atual_do_rei in todos_possiveis_destinos:
-                    rei_em_cheque = True
-                    tabuleiro.casas[coordenada_x_atual][coordenada_y_atual].pedra = self
-                    casa_destino.pedra = None
-                    return rei_em_cheque
-
-        tabuleiro.casas[coordenada_x_atual][coordenada_y_atual].pedra = self
-        casa_destino.pedra = None
-
-        return rei_em_cheque
 
     def mover(self, tabuleiro):
         pass
@@ -117,13 +95,3 @@ class Peao(Pedra):
 
         return pode_comer
 
-    def mover_temporariamente(self, tabuleiro, casa_destino):
-        casa_atual = self.pegar_casa(tabuleiro)
-        casa_atual.pedra = None
-        casa_destino.pedra = self
-
-    def pegar_casa(self, tabuleiro):
-        for linha in tabuleiro.casas:
-            for casa in linha:
-                if casa.pedra == self:
-                    return casa

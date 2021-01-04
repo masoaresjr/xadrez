@@ -18,7 +18,7 @@ class Rainha(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
         casas_possiveis = []
 
         movimentos_direcao_unica = []
@@ -59,7 +59,7 @@ class Rainha(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)

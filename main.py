@@ -12,8 +12,10 @@ from itertools import chain
 
 
 def montar_tabuleiro():
+    global peao
     pedras = criar_pedras()
     tabuleiro = posicionar_pedras(pedras, criar_tabuleiro())
+    atualizar_todos_possiveis_destinos(tabuleiro)
     lixeiras = [Models.Lixeira.Lixeira(Models.Propriedades.Cor.Branca)
         , Models.Lixeira.Lixeira(Models.Propriedades.Cor.Preta)]
 
@@ -128,6 +130,13 @@ def posicionar_pedras(pedras, tabuleiro):
         casa.pedra = pedra
 
     return tabuleiro
+
+
+def atualizar_todos_possiveis_destinos(tabuleiro):
+    for linha in tabuleiro.casas:
+        for casa in linha:
+            if casa.pedra is not None:
+                casa.pedra.atualizar_possiveis_destinos(tabuleiro)
 
 
 montar_tabuleiro()

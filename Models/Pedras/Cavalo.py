@@ -23,11 +23,13 @@ class Cavalo(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
         casas_possiveis = []
 
-        casas_destino = [self.movimentos([-1, 1], [2, -2], tabuleiro, atualizar_proximos_destinos),
-                         self.movimentos([-2, 2], [1, -1], tabuleiro, atualizar_proximos_destinos)]
+        casas_destino = [self.movimentos([-1, 1], [2, -2], tabuleiro, atualizar_proximos_destinos,
+                                         verificar_possivel_cheque),
+                         self.movimentos([-2, 2], [1, -1], tabuleiro, atualizar_proximos_destinos,
+                                         verificar_possivel_cheque)]
 
         for lista_de_casas in casas_destino:
             for casas in lista_de_casas:
@@ -42,7 +44,7 @@ class Cavalo(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)
@@ -51,7 +53,7 @@ class Cavalo(Pedra):
     def mover(self, tabuleiro):
         pass
 
-    def movimentos(self, coordenadas_x, coordenadas_y, tabuleiro, atualizar_proximos_destinos):
+    def movimentos(self, coordenadas_x, coordenadas_y, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
         casas_possiveis = []
 
         for x in coordenadas_x:

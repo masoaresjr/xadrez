@@ -25,8 +25,9 @@ class Torre(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
-        casas_possiveis = []
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+        todas_casas_possiveis = []
+        casas_possiveis_reais = []
 
         contador_x = [1, 0, -1]
         contador_y = [1, 0, -1]
@@ -41,9 +42,17 @@ class Torre(Pedra):
 
         for direcao in movimentos_direcao_unica:
             for casa in direcao:
-                casas_possiveis.append(casa)
+                todas_casas_possiveis.append(casa)
 
-        return casas_possiveis
+        if atualizar_proximos_destinos is True or verificar_possivel_cheque is True:
+            return todas_casas_possiveis
+        else:
+            for casa_destino in todas_casas_possiveis:
+                rei_em_cheque = self.rei_em_cheque(tabuleiro, tabuleiro.pegar_rei(self.cor), casa_destino)
+                if rei_em_cheque is False:
+                    casas_possiveis_reais.append(casa_destino)
+
+        return casas_possiveis_reais
 
     def atualizar_possiveis_destinos(self, tabuleiro):
         for linhas in tabuleiro.casas:
@@ -52,7 +61,7 @@ class Torre(Pedra):
                     casa.possivel_destino_de.remove(self)
                     self.possiveis_destinos.remove(casa)
 
-        casas_destino = self.todos_possiveis_destinos(tabuleiro, True)
+        casas_destino = self.todos_possiveis_destinos(tabuleiro, True, False)
 
         for casa_destino in casas_destino:
             casa_destino.possivel_destino_de.append(self)

@@ -13,7 +13,7 @@ class Pedra:
         self.possiveis_destinos = []
 
     @abstractmethod
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
         # Usado para retornar os possíveis movimentos
         # atualizar_proximos_destinos == False: Início da Rodada
         # atualizar_proximos_destinos == True: Fim da Rodada
@@ -38,5 +38,45 @@ class Pedra:
     @abstractmethod
     def mover(self, tabuleiro):
         pass
+
+    def rei_em_cheque(self, tabuleiro, casa_atual_do_rei, casa_destino):
+        rei_em_cheque = False
+
+        coordenada_x_atual = self.coordenada_x
+        coordenada_y_atual = self.coordenada_y
+
+        pedra_atual_no_destino = casa_destino.pedra
+        self.mover_temporariamente(tabuleiro, casa_destino)
+
+        for pedra in casa_atual_do_rei.possivel_destino_de:
+
+            # Se a pedra for aliada, ou se for comida, não existe cheque:
+            if pedra.cor != casa_atual_do_rei.pedra.cor and pedra != pedra_atual_no_destino:
+
+                todos_possiveis_destinos = pedra.todos_possiveis_destinos(tabuleiro, False, True)
+
+                if casa_atual_do_rei in todos_possiveis_destinos:
+                    rei_em_cheque = True
+                    break
+
+        self.voltar_ao_estado_original(tabuleiro, coordenada_x_atual, coordenada_y_atual
+                                       , casa_destino, pedra_atual_no_destino)
+
+        return rei_em_cheque
+
+    def mover_temporariamente(self, tabuleiro, casa_destino):
+        casa_atual = self.pegar_casa(tabuleiro)
+        casa_atual.pedra = None
+        casa_destino.pedra = self
+
+    def voltar_ao_estado_original(self, tabuleiro, coordenada_x, coordenada_y, casa_destino, pedra_atual_no_destino):
+        tabuleiro.casas[coordenada_x][coordenada_y].pedra = self
+        casa_destino.pedra = pedra_atual_no_destino
+
+    def pegar_casa(self, tabuleiro):
+        for linha in tabuleiro.casas:
+            for casa in linha:
+                if casa.pedra == self:
+                    return casa
 
 
