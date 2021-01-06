@@ -12,7 +12,6 @@ from itertools import chain
 
 
 def montar_tabuleiro():
-    global peao
     pedras = criar_pedras()
     tabuleiro = posicionar_pedras(pedras, criar_tabuleiro())
     atualizar_todos_possiveis_destinos(tabuleiro)

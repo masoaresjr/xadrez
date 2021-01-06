@@ -48,6 +48,7 @@ class Pedra:
         pedra_atual_no_destino = casa_destino.pedra
         self.mover_temporariamente(tabuleiro, casa_destino)
 
+        # Validar para todas as pedras apontadas para o rei se o movimento o deixará em cheque
         for pedra in casa_atual_do_rei.possivel_destino_de:
 
             # Se a pedra for aliada, ou se for comida, não existe cheque:
