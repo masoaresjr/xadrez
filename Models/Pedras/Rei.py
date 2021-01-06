@@ -9,7 +9,7 @@ class Rei(Pedra):
         super().__init__()
         self.name = 'Rei'
         self.cor = cor
-        self.primeiro_movimento = False
+        self.primeiro_movimento = True
         self.coordenada_x = 4
 
         if cor == Models.Propriedades.Cor.Branca:

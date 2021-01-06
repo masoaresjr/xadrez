@@ -11,7 +11,7 @@ class Torre(Pedra):
         super().__init__()
         self.name = 'Torre'
         self.cor = cor
-        self.primeiro_movimento = False
+        self.primeiro_movimento = True
         self.Lado = lado
 
         if cor == Models.Propriedades.Cor.Branca:
