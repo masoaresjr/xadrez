@@ -1,7 +1,5 @@
 from Models.Pedras.Pedra import Pedra
-from Models.Tabuleiro import Tabuleiro
 import Models.Propriedades
-from itertools import chain
 
 
 class Torre(Pedra):
