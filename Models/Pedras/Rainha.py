@@ -9,7 +9,7 @@ class Rainha(Pedra):
         super().__init__()
         self.name = 'Rainha'
         self.cor = cor
-        self.coordenada_x = 3
+        self.coordenada_x = 4
 
         if cor == Models.Propriedades.Cor.Branca:
             self.coordenada_y = 0
@@ -18,7 +18,7 @@ class Rainha(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
         movimentos_direcao_unica = []

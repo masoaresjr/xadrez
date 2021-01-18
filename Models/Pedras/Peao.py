@@ -20,7 +20,7 @@ class Peao(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         todas_casas_possiveis = []
         casas_possiveis_reais = []
 

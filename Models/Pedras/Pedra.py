@@ -13,7 +13,7 @@ class Pedra:
         self.possiveis_destinos = []
 
     @abstractmethod
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         # Usado para retornar os possíveis movimentos
         # atualizar_proximos_destinos == False: Início da Rodada
         # atualizar_proximos_destinos == True: Fim da Rodada

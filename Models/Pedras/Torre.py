@@ -24,7 +24,7 @@ class Torre(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         todas_casas_possiveis = []
         casas_possiveis_reais = []
 
@@ -43,7 +43,7 @@ class Torre(Pedra):
             for casa in direcao:
                 todas_casas_possiveis.append(casa)
 
-        if atualizar_proximos_destinos is True or verificar_possivel_cheque is True:
+        if atualizar_proximos_destinos is True:
             return todas_casas_possiveis
         else:
             for casa_destino in todas_casas_possiveis:

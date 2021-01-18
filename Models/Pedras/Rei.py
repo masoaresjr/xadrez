@@ -10,7 +10,7 @@ class Rei(Pedra):
         self.name = 'Rei'
         self.cor = cor
         self.primeiro_movimento = True
-        self.coordenada_x = 4
+        self.coordenada_x = 3
 
         if cor == Models.Propriedades.Cor.Branca:
             self.coordenada_y = 0
@@ -19,7 +19,7 @@ class Rei(Pedra):
 
         self.casa_inicial_tabuleiro = [self.coordenada_x, self.coordenada_y]
 
-    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos, verificar_possivel_cheque):
+    def todos_possiveis_destinos(self, tabuleiro, atualizar_proximos_destinos):
         casas_possiveis = []
 
         movimentos_x = [-1, 0, 1]
